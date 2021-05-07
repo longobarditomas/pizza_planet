@@ -1,6 +1,10 @@
 # Pizza Planet
 
 
+## Live Demo
+
+https://pizzaplanet.herokuapp.com/
+
 ## Server
 
 #### Technologies
