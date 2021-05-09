@@ -36,12 +36,12 @@ const Products = () => {
         <div className="container">
             <h1 style={{color:"white", textAlign:"left", fontFamily:'Titillium Web'}}>Pizzas</h1>
             <hr style={{backgroundColor:"white"}}></hr>
-            <Row md="4">
+            <Row xs="1" sm="2" md="4">
                 {productList(pizzas)}
             </Row>
             <h1 style={{color:"white", textAlign:"left", fontFamily:'Titillium Web'}}>Beers</h1>
             <hr style={{backgroundColor:"white"}}></hr>
-            <Row md="4">
+            <Row xs="1" sm="2" md="4">
                 {productList(beers)}
             </Row>
             <div className="icon-bar">
