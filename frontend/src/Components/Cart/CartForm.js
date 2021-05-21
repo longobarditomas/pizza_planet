@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useContext } from "react";
 import { Table, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { AvForm, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
+import CartContext from "../../Context/Cart/CartContext";
 
 const CartForm = (props) => {
 
-    const cartList = () => props.cart.items.map((item) => 
-        <tr>
+    const cartContext = useContext(CartContext);
+  
+    const cartList = () => cartContext.cart.items.map((item) => 
+        <tr key={item.dish}>
             <td>{item.title}</td>
             <td>{item.size}</td>
-            <td>{item.quantity}</td>
+            <td>
+                <Button onClick={() => cartContext.updateCartItemQuantity(item, 'decrement')} style={{backgroundColor:"red", border:"none", color:"white"}} size="sm">-</Button>
+                <span style={{paddingLeft:"6px",paddingRight:"6px"}}>{item.quantity}</span>
+                <Button onClick={() => cartContext.updateCartItemQuantity(item, 'increment')} style={{backgroundColor:"red", border:"none", color:"white"}} size="sm">+</Button>
+            </td>
             <td>${item.unit_price}</td>
             <td>${item.unit_price*item.quantity}</td>
+            <td onClick={function(e){cartContext.deleteCartItem(item)}}><i class="fa fa-trash" aria-hidden="true"></i></td>
         </tr>
     ); 
 
@@ -32,17 +40,20 @@ const CartForm = (props) => {
                                 <th>Quantity</th>
                                 <th>Unit Amount</th>
                                 <th>Amount</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             {cartList()}
                             <tr>
-                                <th colspan="4">Shipping cost</th>
+                                <th colSpan="4">Shipping cost</th>
                                 <th>${props.shippingCost}</th>
+                                <th></th>
                             </tr>
                             <tr>
-                                <th colspan="4">Total Amount</th>
-                                <th>${props.cart.total_amount+props.shippingCost}</th>
+                                <th colSpan="4">Total Amount</th>
+                                <th>${cartContext.cart.total_amount+props.shippingCost}</th>
+                                <th></th>
                             </tr>
                         </tbody>
                     </Table>

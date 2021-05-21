@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
 import { Row } from 'reactstrap';
 import { baseUrl } from '../../shared/baseUrl';
 import Product from './Product';
 import CartModal from '../Cart/Modal';
+import CartContext from "../../Context/Cart/CartContext";
 
 const Products = () => {
+
+    const cartContext = useContext(CartContext);
+
     const [products, setProducts] = React.useState([]);
-    const [cart, setCart]         = React.useState({items:[],total_amount:0});
     const [modal, setModal]       = React.useState(false);
 
     React.useEffect(() => {
@@ -27,7 +30,7 @@ const Products = () => {
     }
 
     const productList = (products) => products.map((product) => 
-        <Product key={`prod_${product._id}`} product={product} setCart={setCart} cart={cart}/>
+        <Product key={`prod_${product._id}`} product={product} />
     ); 
 
     const toggleModal = () => setModal(!modal);
@@ -46,10 +49,10 @@ const Products = () => {
             </Row>
             <div className="icon-bar">
                 <img src="/cart_button_2.png" alt="cart-button-2" style={{width:"120px"}} onClick={function(e){toggleModal()}} />
-                <span style={{color:"green", marginLeft:"-60px"}}>{cart.items.length}</span>
+                <span style={{color:"green", marginLeft:"-60px"}}>{cartContext.cart.items.length}</span>
             </div>
 
-            <CartModal cart={cart} toggleModal={toggleModal} modal={modal} />
+            <CartModal toggleModal={toggleModal} modal={modal} />
 
         </div>
     );
