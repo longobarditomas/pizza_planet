@@ -1,11 +1,8 @@
 import React, { useReducer } from "react";
-import axios from "axios";
-import { baseUrl } from '../../shared/baseUrl';
-
 import CartContext from "./CartContext";
 import CartReducer from "./CartReducer";
 
-import { GET_CART, UPDATE_CART_ITEM_QUANTITY, DELETE_CART_ITEM, ADD_CART_ITEM } from "../types";
+import { UPDATE_CART_ITEM_QUANTITY, DELETE_CART_ITEM, ADD_CART_ITEM } from "../types";
 
 const CartState = (props) => {
   const initialState = {
@@ -16,19 +13,6 @@ const CartState = (props) => {
   };
 
   const [state, dispatch] = useReducer(CartReducer, initialState);
-
-  const getCart = async () => {
-    try {
-      const res = await axios.get(baseUrl+'carts');
-      const data = {
-        items: res.data[0].items,
-        total_amount: res.data[0].total_amount,
-      }; 
-      dispatch({ type: GET_CART, payload: data });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const updateCartItemQuantity = async (item, qAction) => {
     const data = state;
@@ -79,7 +63,6 @@ const CartState = (props) => {
     <CartContext.Provider
       value={{
         cart: state.cart,
-        getCart,
         updateCartItemQuantity,
         deleteCartItem,
         addCartItem,
